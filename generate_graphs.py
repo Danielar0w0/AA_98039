@@ -8,8 +8,10 @@ import math
 # Generate successively larger random graphs, with 4, 5, 6, … vertices, using your student number as seed.
 # Use 12.5%, 25%, 50% and 75% of the maximum number of edges for the number of vertices.
 
+nMec = 98039
 
-def generate_graph(seed, v, p):
+
+def generate_graph(v, p):
 
     # Generate a random graph with n vertices and n * (p/100) edges.
     # Return the list of vertices and the list of edges.
@@ -17,13 +19,14 @@ def generate_graph(seed, v, p):
     # v - Number of vertices
     # p - Percentage of the maximum number of edges
 
-    np.random.seed(seed)
+    global nMec
+    np.random.seed(nMec)
     e = math.floor(v * p / 100)
 
     vertices = []
     while len(vertices) < v:
-        x = np.random.randint(1, 20)
-        y = np.random.randint(1, 20)
+        x = np.random.randint(1, 21)
+        y = np.random.randint(1, 21)
         if (x, y) not in vertices:
             vertices.append((x, y))
 
@@ -83,12 +86,11 @@ def print_matrix(matrix):
 
 
 if __name__ == '__main__':
-    # Generate graphs for the 4 cases and save them to files.
-    nMec = 98039
-    n_vertices = 2
+
+    n_vertices = 10
     percentage = 50
 
-    vertices, edges = generate_graph(nMec, n_vertices, percentage)
+    vertices, edges = generate_graph(n_vertices, percentage)
 
     print("Vertices:", vertices)
     print("Edges:", edges)
