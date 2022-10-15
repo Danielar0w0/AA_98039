@@ -17,3 +17,6 @@ if __name__ == '__main__':
     edges = [((16, 12), (5, 3)), ((7, 12), (10, 14)), ((20, 6), (10, 14)), ((20, 6), (12, 16)), ((11, 19), (16, 12))]
 
     print("Lower bound:", lower_bound(len(vertices), len(edges)))
+
+    # Connected subset
+    print("Lower bound (connected):", lower_bound(4, 3, connected=True))

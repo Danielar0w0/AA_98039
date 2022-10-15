@@ -7,17 +7,17 @@ nMec = 98039
 """
 def obtain_start(vertices, edges):
 
-    # Obtain the start vertice of a graph.
-    # Return the start vertice of the graph.
+    # Obtain the start vertex of a graph.
+    # Return the start vertex of the graph.
 
     global nMec
     np.random.seed(nMec)
 
     start = None
     while not start:
-        vertice = vertices[np.random.randint(0, len(vertices))]
-        if [edge for edge in edges if vertice in edge]:
-            start = vertice
+        vertex = vertices[np.random.randint(0, len(vertices))]
+        if [edge for edge in edges if vertex in edge]:
+            start = vertex
 
     return start
 """
@@ -40,11 +40,13 @@ def generate_search_tree(vertices, edges):
     tree = {}
     while queue:
         vertex = queue.pop(0)
-        if vertex not in visited:
+        if vertex not in visited or (vertex[1], vertex[0]) not in visited:
+
             visited.add(vertex)
 
             next_vertices = [edge[1] for edge in edges if edge[0] == vertex]
             next_vertices += [edge[0] for edge in edges if edge[1] == vertex]
+
             next_vertices = set(next_vertices) - visited
 
             if next_vertices:
@@ -52,6 +54,33 @@ def generate_search_tree(vertices, edges):
                 queue.extend(next_vertices)
 
     return tree, visited
+
+
+def search(tree, edges):
+
+    first_layer = list(tree.keys())[0]
+    A = [first_layer]
+    B = []
+
+    i = 0
+    for layer in tree:
+        # print(layer, tree[layer])
+        if i % 2 != 0:
+            vertices = [vertex for vertex in tree[layer]]
+            A += vertices
+        else:
+            vertices = [vertex for vertex in tree[layer]]
+            B += vertices
+        i += 1
+
+    # Count number of crossed edges (between A and B)
+    maximum_cut = 0
+    for a in A:
+        for b in B:
+            if (a, b) in edges or (b, a) in edges:
+                maximum_cut += 1
+
+    return A, B, maximum_cut
 
 
 if __name__ == '__main__':
@@ -83,8 +112,13 @@ if __name__ == '__main__':
             final_tree = tree
         print("-", tree)
 
-    print("Biggest sub-tree:", final_tree)
+    print("Largest sub-tree:", final_tree)
 
     # print("Tree:\n", tree)
     # print("Visited:", visited)
     # print("Not visited:", not_visited)
+
+    A, B, maximum_cut = search(final_tree, edges)
+    print("A: ", A)
+    print("B: ", B)
+    print("Maximum Cut:", maximum_cut)
