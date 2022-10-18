@@ -1,39 +1,17 @@
 import numpy as np
+import networkx as nx
+from generate_graphs import load_graphs
+from graph_utils import *
 
 
-nMec = 98039
-
-
-"""
-def obtain_start(vertices, edges):
-
-    # Obtain the start vertex of a graph.
-    # Return the start vertex of the graph.
-
-    global nMec
-    np.random.seed(nMec)
-
-    start = None
-    while not start:
-        vertex = vertices[np.random.randint(0, len(vertices))]
-        if [edge for edge in edges if vertex in edge]:
-            start = vertex
-
-    return start
-"""
-
+# --- Handle vertices and edges
 
 def generate_search_tree(vertices, edges):
 
     # Generate the search tree of a graph.
     # Return the search tree of the graph.
 
-    global nMec
-    np.random.seed(nMec)
-
     queue = [vertices[np.random.randint(0, len(vertices))]]
-    # queue = [obtain_start(vertices, edges)]
-    # queue = [vertices[0]]
 
     visited = set()
 
@@ -56,9 +34,13 @@ def generate_search_tree(vertices, edges):
     return tree, visited
 
 
+# --- Handle graphs
+
+
 def search(tree, edges):
 
     first_layer = list(tree.keys())[0]
+
     A = [first_layer]
     B = []
 
@@ -82,7 +64,7 @@ def search(tree, edges):
 
     return A, B, maximum_cut
 
-
+"""
 if __name__ == '__main__':
 
     vertices = [(5, 3), (12, 15), (11, 19), (3, 17), (7, 12), (16, 12), (11, 15), (12, 16), (20, 6), (10, 14)]
@@ -122,3 +104,17 @@ if __name__ == '__main__':
     print("A: ", A)
     print("B: ", B)
     print("Maximum Cut:", maximum_cut)
+"""
+
+if __name__ == '__main__':
+
+    graphs = load_graphs()
+    for graph in graphs:
+
+        connected_component = list(largest_connected_component(graph))
+
+        # Use first vertice in the connected component as the root
+        tree = nx.bfs_tree(graph, connected_component[0])
+
+        for layer in tree:
+            print(layer, tree[layer])

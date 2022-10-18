@@ -1,105 +1,60 @@
-import numpy as np
-import math
+import json
 
-# Graph vertices are 2D points on the XOY plane, with integer valued coordinates between 1 and 20.
-# Graph vertices should neither be coincident nor too close.
-# The number of edges sharing a vertex is randomly determined.
+import networkx as nx
 
-# Generate successively larger random graphs, with 4, 5, 6, … vertices, using your student number as seed.
-# Use 12.5%, 25%, 50% and 75% of the maximum number of edges for the number of vertices.
+from graph_utils import *
 
-nMec = 98039
+v = 2
 
 
-def generate_graph(v, p):
+def generate_graphs():
 
-    # Generate a random graph with n vertices and n * (p/100) edges.
-    # Return the list of vertices and the list of edges.
+    global v
+    graph_id = 0
 
-    # v - Number of vertices
-    # p - Percentage of the maximum number of edges
+    for i in range(2, v + 1):
 
-    global nMec
-    np.random.seed(nMec)
-    e = math.floor(v * p / 100)
+        n_vertices = 2 ** i
 
-    vertices = []
-    while len(vertices) < v:
-        x = np.random.randint(1, 21)
-        y = np.random.randint(1, 21)
-        if (x, y) not in vertices:
-            vertices.append((x, y))
+        for percentage in [12.5, 25, 50, 75]:
+            vertices, edges = generate_vertices_edges(n_vertices, percentage)
 
-    edges = []
-    while len(edges) < e:
-        v1 = np.random.randint(0, v)
-        v2 = np.random.randint(0, v)
+            print("---")
+            print("Number of vertices:", len(vertices))
+            print("Number of edges:", len(edges))
 
-        if v1 != v2 and (vertices[v1], vertices[v2]) not in edges and (vertices[v2], vertices[v1]) not in edges:
-            edge = (vertices[v1], vertices[v2])
-            edges.append(edge)
+            print("Vertices:", vertices)
+            print("Edges:", edges)
 
-    return vertices, edges
+            graph = draw_graph(vertices, edges)
+            graph_data = nx.node_link_data(graph)
+            # graph_data = nx.adjacency_data(graph)
+
+            with open("graphs/graph_{}.json".format(graph_id), "w") as f:
+                f.write(json.dumps(graph_data))
+
+            graph_id += 1
 
 
-def adjacency_matrix(vertices, edges):
+def load_graphs():
 
-    # Generate the adjacency matrix of a graph.
-    # Return the adjacency matrix of the graph.
+    global v
+    graphs = []
 
-    n = len(vertices)
-    matrix = np.zeros((n, n), dtype=int)
+    n_graphs = (v-2+1)*4
 
-    for edge in edges:
-        v1 = vertices.index(edge[0])
-        v2 = vertices.index(edge[1])
-        matrix[v1][v2] = 1
-        matrix[v2][v1] = 1
+    for i in range(n_graphs):
+        with open("graphs/graph_{}.json".format(i), "r") as f:
+            graph_data = json.loads(f.read())
+            print(type(graph_data))
 
-    return matrix
+            graphs.append(nx.node_link_graph(graph_data))
+            # graphs.append(nx.adjacency_graph(graph_data))
 
-
-def incidence_matrix(vertices, edges):
-
-    # Generate the incidence matrix of a graph.
-    # Return the incidence matrix of the graph.
-
-    n = len(vertices)
-    m = len(edges)
-    matrix = np.zeros((n, m), dtype=int)
-
-    for i in range(m):
-        edge = edges[i]
-        v1 = vertices.index(edge[0])
-        v2 = vertices.index(edge[1])
-        matrix[v1][i] = 1
-        matrix[v2][i] = 1
-
-    return matrix
-
-
-def print_matrix(matrix):
-
-    # Print a matrix in a readable format.
-    for line in matrix:
-        print('  '.join(map(str, line)))
+    return graphs
 
 
 if __name__ == '__main__':
 
-    n_vertices = 10
-    percentage = 50
-
-    vertices, edges = generate_graph(n_vertices, percentage)
-
-    print("Vertices:", vertices)
-    print("Edges:", edges)
-
-    matrix = adjacency_matrix(vertices, edges)
-    print("Adjacency matrix")
-    print_matrix(matrix)
-
-    matrix = incidence_matrix(vertices, edges)
-    print("Incidence matrix:")
-    print_matrix(matrix)
-
+    # Generate graphs once
+    generate_graphs()
