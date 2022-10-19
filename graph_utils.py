@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import json
 
 # Graph vertices are 2D points on the XOY plane, with integer valued coordinates between 1 and 20.
 # Graph vertices should neither be coincident nor too close.
@@ -11,6 +12,7 @@ import math
 # Use 12.5%, 25%, 50% and 75% of the maximum number of edges for the number of vertices.
 
 nMec = 98039
+v = 5
 
 
 # --- Handle vertices and edges
@@ -108,8 +110,8 @@ def draw_graph(vertices, edges):
     graph.add_nodes_from(vertices)
     graph.add_edges_from(edges)
 
-    # nx.draw(graph, with_labels=True)
-    nx.draw(graph, node_color='orange', edge_color='red')
+    # nx.draw(graph, node_color='orange', edge_color='red')
+    nx.draw(graph, node_color='orange', edge_color='red', with_labels=True)
     plt.show()
 
     return graph
@@ -157,6 +159,23 @@ def print_matrix(matrix):
         print('  '.join(map(str, line)))
 
 
+def load_graphs():
+
+    global v
+    graphs = []
+
+    n_graphs = (v-2+1)*4
+
+    for i in range(n_graphs):
+        with open("graphs/graph_{}.json".format(i), "r") as f:
+            graph_data = json.loads(f.read())
+
+            graphs.append(nx.node_link_graph(graph_data))
+            # graphs.append(nx.adjacency_graph(graph_data))
+
+    return graphs
+
+
 if __name__ == '__main__':
     n_vertices = 10
     percentage = 50
@@ -167,7 +186,7 @@ if __name__ == '__main__':
     print("Edges:", edges)
 
     """
-    # Vertice and edges handling
+    # Vertices and edges handling
     matrix = adjacency_matrix(vertices, edges)
     print("Adjacency matrix")
     print_matrix(matrix)

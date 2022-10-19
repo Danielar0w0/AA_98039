@@ -1,10 +1,6 @@
-import json
-
-import networkx as nx
-
 from graph_utils import *
 
-v = 2
+v = 5
 
 
 def generate_graphs():
@@ -34,24 +30,6 @@ def generate_graphs():
                 f.write(json.dumps(graph_data))
 
             graph_id += 1
-
-
-def load_graphs():
-
-    global v
-    graphs = []
-
-    n_graphs = (v-2+1)*4
-
-    for i in range(n_graphs):
-        with open("graphs/graph_{}.json".format(i), "r") as f:
-            graph_data = json.loads(f.read())
-            print(type(graph_data))
-
-            graphs.append(nx.node_link_graph(graph_data))
-            # graphs.append(nx.adjacency_graph(graph_data))
-
-    return graphs
 
 
 if __name__ == '__main__':
