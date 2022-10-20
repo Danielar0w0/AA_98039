@@ -34,7 +34,7 @@ def greedy_search(graph, vertices):
                     current_cut = count_cut(graph, [A, B])
                     improvement = True
 
-            if vertex in B:
+            elif vertex in B:
                 # temp_B = B.copy()
                 # temp_B.remove(vertex)
                 temp_B = [v for v in B if v != vertex]
