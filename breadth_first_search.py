@@ -1,15 +1,14 @@
-from generate_graphs import load_graphs
 from graph_utils import *
 
 
 # --- Handle graphs
 
 def generate_search_tree(graph, start):
-
     return nx.bfs_tree(graph, start)
 
 
 def search(tree, edges):
+    global operations_counter
 
     first_layer = list(tree)[0]
 
@@ -18,7 +17,6 @@ def search(tree, edges):
 
     i = 0
     for layer in tree:
-        # print(layer, tree[layer])
 
         if i % 2 != 0:
             vertices = [vertex for vertex in tree[layer]]
@@ -26,6 +24,11 @@ def search(tree, edges):
         else:
             vertices = [vertex for vertex in tree[layer]]
             B += vertices
+
+        # Update operations counter
+        operations_counter += 1
+
+        # Update layer
         i += 1
 
     # Count number of crossed edges (between A and B)
@@ -35,6 +38,9 @@ def search(tree, edges):
             if (a, b) in edges or (b, a) in edges:
                 maximum_cut += 1
 
+            # Update operations counter
+            operations_counter += 1
+
     return A, B, maximum_cut
 
 
@@ -43,6 +49,8 @@ if __name__ == '__main__':
     graphs = load_graphs()
     for graph in graphs:
 
+        operations_counter = 0
+
         # Get the largest connected component
         vertices = list(largest_connected_component(graph))
 
@@ -50,7 +58,7 @@ if __name__ == '__main__':
         tree = generate_search_tree(graph, vertices[0])
 
         # for layer in tree:
-            # print(layer, tree[layer])
+        # print(layer, tree[layer])
 
         A, B, maximum_cut = search(tree, graph.edges)
         print("---")
@@ -58,3 +66,5 @@ if __name__ == '__main__':
         print("A: ", A)
         print("B: ", B)
         print("Maximum Cut:", maximum_cut)
+
+        print("Number of Operations:", operations_counter)

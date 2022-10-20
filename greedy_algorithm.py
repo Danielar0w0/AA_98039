@@ -1,7 +1,11 @@
 from graph_utils import *
 
 
+operations_counter = 0
+
 def greedy_search(graph, vertices):
+
+    global operations_counter
 
     A = vertices
     B = []
@@ -53,10 +57,15 @@ def greedy_search(graph, vertices):
                     current_cut = count_cut(graph, [A, B])
                     improvement = True
 
+            # Update operations counter
+            operations_counter += 1
+
     return A, B, count_cut(graph, [A, B])
 
 
 def count_cut(graph, partition):
+
+    global operations_counter
 
     # Count number of crossed edges (between A and B)
     maximum_cut = 0
@@ -65,6 +74,9 @@ def count_cut(graph, partition):
             if (a, b) in graph.edges or (b, a) in graph.edges:
                 maximum_cut += 1
 
+            # Update operations counter
+            operations_counter += 1
+
     return maximum_cut
 
 
@@ -72,6 +84,8 @@ if __name__ == '__main__':
 
     graphs = load_graphs()
     for graph in graphs:
+
+        operations_counter = 0
 
         # Get the largest connected component
         vertices = list(largest_connected_component(graph))
@@ -83,3 +97,5 @@ if __name__ == '__main__':
         print("A: ", A)
         print("B: ", B)
         print("Maximum Cut:", maximum_cut)
+
+        print("Number of Operations:", operations_counter)
