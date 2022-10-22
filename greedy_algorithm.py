@@ -1,10 +1,10 @@
 from graph_utils import *
-
+import networkx as nx
 
 operations_counter = 0
 
-def greedy_search(graph, vertices):
 
+def greedy_search(graph, vertices):
     global operations_counter
 
     A = vertices
@@ -29,14 +29,25 @@ def greedy_search(graph, vertices):
                     continue
 
                 # If moving vertex from A to B improves the cut
-                if count_cut(graph, [temp_A, B]) < count_cut(graph, [A, B+[vertex]]) \
-                        and count_cut(graph, [A, B+[vertex]]) > current_cut:
+                if nx.cut_size(graph, temp_A, B) < nx.cut_size(graph, A, B + [vertex]) \
+                        and nx.cut_size(graph, A, B + [vertex]) > current_cut:
+                    A.remove(vertex)
+                    B.append(vertex)
+
+                    # Update current cut and set improvement to True
+                    current_cut = nx.cut_size(graph, A, B)
+                    improvement = True
+
+                """
+                if count_cut(graph, [temp_A, B]) < count_cut(graph, [A, B + [vertex]]) \
+                        and count_cut(graph, [A, B + [vertex]]) > current_cut:
                     A.remove(vertex)
                     B.append(vertex)
 
                     # Update current cut and set improvement to True
                     current_cut = count_cut(graph, [A, B])
                     improvement = True
+                """
 
             elif vertex in B:
                 # temp_B = B.copy()
@@ -48,6 +59,16 @@ def greedy_search(graph, vertices):
                     continue
 
                 # If moving vertex from B to A improves the cut
+                if nx.cut_size(graph, A, temp_B) < nx.cut_size(graph, A + [vertex], B) \
+                        and nx.cut_size(graph, A + [vertex], B) > current_cut:
+                    A.append(vertex)
+                    B.remove(vertex)
+
+                    # Update current cut and set improvement to True
+                    current_cut = nx.cut_size(graph, A, B)
+                    improvement = True
+
+                """
                 if count_cut(graph, [A, temp_B]) < count_cut(graph, [A+[vertex], B]) \
                         and count_cut(graph, [A+[vertex], B]) > current_cut:
                     B.remove(vertex)
@@ -56,6 +77,7 @@ def greedy_search(graph, vertices):
                     # Update current cut and set improvement to True
                     current_cut = count_cut(graph, [A, B])
                     improvement = True
+                """
 
             # Update operations counter
             operations_counter += 1
@@ -64,7 +86,6 @@ def greedy_search(graph, vertices):
 
 
 def count_cut(graph, partition):
-
     global operations_counter
 
     # Count number of crossed edges (between A and B)
@@ -84,7 +105,6 @@ if __name__ == '__main__':
 
     graphs = load_graphs()
     for graph in graphs:
-
         operations_counter = 0
 
         # Get the largest connected component

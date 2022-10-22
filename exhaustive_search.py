@@ -1,6 +1,6 @@
 from graph_utils import *
 from itertools import combinations
-
+import networkx as nx
 
 def exhaustive_search(graph, vertices):
 
@@ -27,11 +27,15 @@ def exhaustive_search(graph, vertices):
     maximum_cut = 0
     A = B = None
     for partition in partitions:
-        cut = count_cut(graph, partition)
+        # cut = count_cut(graph, partition))
+        cut = nx.cut_size(graph, partition[0], partition[1])
         if cut > maximum_cut:
             maximum_cut = cut
             A = partition[0]
             B = partition[1]
+
+        # Update operations counter
+        operations_counter += 1
 
     return A, B, maximum_cut
 

@@ -1,4 +1,5 @@
 from graph_utils import *
+import networkx as nx
 
 
 # --- Handle graphs
@@ -32,6 +33,8 @@ def search(tree, edges):
         i += 1
 
     # Count number of crossed edges (between A and B)
+    maximum_cut = nx.cut_size(graph, A, B)
+    """
     maximum_cut = 0
     for a in A:
         for b in B:
@@ -40,6 +43,7 @@ def search(tree, edges):
 
             # Update operations counter
             operations_counter += 1
+    """
 
     return A, B, maximum_cut
 
@@ -48,7 +52,6 @@ if __name__ == '__main__':
 
     graphs = load_graphs()
     for graph in graphs:
-
         operations_counter = 0
 
         # Get the largest connected component
