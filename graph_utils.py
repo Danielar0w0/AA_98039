@@ -107,11 +107,18 @@ def draw_graph(vertices, edges):
     # Return the graph.
 
     graph = nx.Graph()
-    graph.add_nodes_from(vertices)
-    graph.add_edges_from(edges)
 
-    # nx.draw(graph, node_color='orange', edge_color='red')
-    nx.draw(graph, node_color='orange', edge_color='red', with_labels=True)
+    # graph.add_nodes_from(vertices)
+    # graph.add_edges_from(edges)
+
+    vertices_ids = [i for i in range(len(vertices))]
+    edges_ids = [(i, j) for i in vertices_ids for j in vertices_ids if (vertices[i], vertices[j]) in edges]
+
+    graph.add_nodes_from(vertices_ids)
+    graph.add_edges_from(edges_ids)
+
+    positions = {i: vertices[i] for i in vertices_ids}
+    nx.draw(graph, node_color='orange', edge_color='red', with_labels=True, pos=positions)
     plt.show()
 
     return graph
