@@ -71,6 +71,7 @@ if __name__ == '__main__':
 
         print("---")
         print(graph)
+        print("Vertices:", vertices)
         print("A: ", A)
         print("B: ", B)
         print("Maximum Cut:", maximum_cut)

@@ -1,11 +1,7 @@
 from graph_utils import *
 
-v = 5
 
-
-def generate_graphs():
-
-    global v
+def generate_graphs(v=5):
     graph_id = 0
 
     for i in range(2, v + 1):
@@ -33,6 +29,5 @@ def generate_graphs():
 
 
 if __name__ == '__main__':
-
     # Generate graphs once
-    generate_graphs()
+    generate_graphs(v)

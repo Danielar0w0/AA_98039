@@ -26,7 +26,8 @@ def generate_vertices_edges(v, p):
 
     global nMec
     np.random.seed(nMec)
-    e = math.floor(v * p / 100)
+    # e = math.floor(v * p / 100)
+    e = math.floor((v * (v-1) / 2) * (p / 100))
 
     vertices = []
     while len(vertices) < v:
