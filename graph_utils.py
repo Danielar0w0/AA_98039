@@ -1,4 +1,5 @@
 import networkx as nx
+from networkx import Graph
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -93,7 +94,7 @@ def incidence_matrix(vertices, edges):
     return matrix
 
 
-def store_graph(vertices, edges):
+def store_vertices_and_edges(vertices, edges):
     # Store a graph in a file.
 
     with open('graph.txt', 'w') as file:
@@ -125,32 +126,39 @@ def draw_graph(vertices, edges):
     return graph
 
 
-def is_connected(graph):
+def is_connected(graph: Graph):
     # Check if a graph is connected.
     # Return True if the graph is connected, False otherwise.
 
     return nx.is_connected(graph)
 
 
-def number_of_connected_components(graph):
+def number_of_connected_components(graph: Graph):
     # Return the number of connected components of a graph
 
     return nx.number_connected_components(graph)
 
 
-def connected_components(graph):
+def connected_components(graph: Graph):
     # Return the connected components of a graph
 
     return list(nx.connected_components(graph))
 
 
-def largest_connected_component(graph):
+def largest_connected_component(graph: Graph):
     # Return the largest connected component of a graph
+    for c in nx.connected_components(graph):
+        print(c)
 
     return max(nx.connected_components(graph), key=len)
 
 
-def adjacency_data(graph):
+def remove_vertices_without_edges(graph: Graph):
+    # Remove vertices without edges
+    return graph.subgraph([v for v in graph if graph.degree(v) > 0])
+
+
+def adjacency_data(graph: Graph):
     # Generate the adjacency matrix of a graph
 
     return nx.adjacency_data(graph)

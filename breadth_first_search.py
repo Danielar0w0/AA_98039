@@ -55,7 +55,20 @@ if __name__ == '__main__':
         operations_counter = 0
 
         # Get the largest connected component
-        vertices = list(largest_connected_component(graph))
+        # vertices = list(largest_connected_component(graph))
+
+        # Get relevant vertices
+        vertices = list(remove_vertices_without_edges(graph))
+
+        if not vertices:
+
+            print("---")
+            print(graph)
+            print("A: ", None)
+            print("B: ", None)
+            print("Maximum Cut:", 0)
+
+            continue
 
         # Use first vertex in the connected component as the root
         tree = generate_search_tree(graph, vertices[0])

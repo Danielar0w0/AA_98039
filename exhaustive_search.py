@@ -65,7 +65,10 @@ if __name__ == '__main__':
         operations_counter = 0
 
         # Get the largest connected component
-        vertices = list(largest_connected_component(graph))
+        # vertices = list(largest_connected_component(graph))
+
+        # Get relevant vertices
+        vertices = list(remove_vertices_without_edges(graph))
 
         A, B, maximum_cut = exhaustive_search(graph, vertices)
 
