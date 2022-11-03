@@ -13,7 +13,7 @@ import json
 # Use 12.5%, 25%, 50% and 75% of the maximum number of edges for the number of vertices.
 
 nMec = 98039
-v = 5
+v = 7
 
 
 # --- Handle vertices and edges

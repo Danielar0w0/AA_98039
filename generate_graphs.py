@@ -1,7 +1,7 @@
 from graph_utils import *
 
 
-def generate_graphs(v=5):
+def generate_graphs(v=7):
     graph_id = 0
 
     for i in range(2, v + 1):
