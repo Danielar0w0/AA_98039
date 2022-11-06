@@ -1,6 +1,5 @@
 from graph_utils import *
 from algorithm_utils import *
-import networkx as nx
 import time
 
 
@@ -31,13 +30,13 @@ def greedy_search(graph, vertices):
                     continue
 
                 # If moving vertex from A to B improves the cut
-                if nx.cut_size(graph, temp_A, B) < nx.cut_size(graph, A, B + [vertex]) \
-                        and nx.cut_size(graph, A, B + [vertex]) > current_cut:
+                if count_cut(graph, [temp_A, B]) < count_cut(graph, [A, B + [vertex]]) \
+                        and count_cut(graph, [A, B + [vertex]]) > current_cut:
                     A.remove(vertex)
                     B.append(vertex)
 
                     # Update current cut and set improvement to True
-                    current_cut = nx.cut_size(graph, A, B)
+                    current_cut = count_cut(graph, [A, B])
                     improvement = True
 
             elif vertex in B:
@@ -50,28 +49,18 @@ def greedy_search(graph, vertices):
                     continue
 
                 # If moving vertex from B to A improves the cut
-                if nx.cut_size(graph, A, temp_B) < nx.cut_size(graph, A + [vertex], B) \
-                        and nx.cut_size(graph, A + [vertex], B) > current_cut:
+                if count_cut(graph, [A, temp_B]) < count_cut(graph, [A + [vertex], B]) \
+                        and count_cut(graph, [A + [vertex], B]) > current_cut:
                     A.append(vertex)
                     B.remove(vertex)
-
-                    # Update current cut and set improvement to True
-                    current_cut = nx.cut_size(graph, A, B)
-                    improvement = True
-
-                """
-                if count_cut(graph, [A, temp_B]) < count_cut(graph, [A+[vertex], B]) \
-                        and count_cut(graph, [A+[vertex], B]) > current_cut:
-                    B.remove(vertex)
-                    A.append(vertex)
 
                     # Update current cut and set improvement to True
                     current_cut = count_cut(graph, [A, B])
                     improvement = True
-                """
 
             # Update operations counter
-            operations_counter += 1
+            # 2 comparisons per iteration
+            operations_counter += 2
 
             # Update attempts counter
             attempts_counter += 1

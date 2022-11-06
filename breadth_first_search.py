@@ -30,15 +30,17 @@ def search(graph, tree):
             vertices = [vertex for vertex in tree[layer]]
             B += vertices
 
-        # Update operations counter
-        operations_counter += 1
-
         # Update layer
         i += 1
 
     # Count number of crossed edges (between A and B)
     # maximum_cut = nx.cut_size(graph, A, B)
     maximum_cut = count_cut(graph, [A, B])
+
+    # Update operations counter
+    operations_counter += 1
+
+    # Update attempts counter
     attempts_counter += 1
 
     return A, B, maximum_cut

@@ -1,7 +1,7 @@
 from graph_utils import *
 
 
-def generate_graphs(v=7):
+def generate_graphs(v=8):
     graph_id = 0
 
     for i in range(2, v + 1):
@@ -15,8 +15,8 @@ def generate_graphs(v=7):
             print("Number of vertices:", len(vertices))
             print("Number of edges:", len(edges))
 
-            print("Vertices:", vertices)
-            print("Edges:", edges)
+            # print("Vertices:", vertices)
+            # print("Edges:", edges)
 
             graph = draw_graph(vertices, edges)
             graph_data = nx.node_link_data(graph)

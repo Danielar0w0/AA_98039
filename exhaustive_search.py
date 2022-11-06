@@ -8,9 +8,11 @@ def exhaustive_search(graph, vertices):
     global operations_counter
     global attempts_counter
 
+    """
+    # With optimization
+    
     # Get all possible partitions
     partitions = []
-
     for i in range(0, (len(vertices) // 2) + 1):
         subsets = list(combinations(vertices, i))
 
@@ -18,26 +20,19 @@ def exhaustive_search(graph, vertices):
             partitions.append([list(subset), list(set(vertices) - set(subset))])
 
             # Update operations counter
-            operations_counter += 1
-
+            # operations_counter += 1
     """
+
     # Without optimization
     subsets = []
     for i in range(0, len(vertices) + 1):
         subsets += list(combinations(vertices, i))
-
-        # Update operations counter
-        operations_counter += 1
 
     # Get all possible partitions
     partitions = []
     for subset in subsets:
         partition = [list(subset), list(set(vertices) - set(subset))]
         partitions.append(partition)
-        
-        # Update operations counter
-            operations_counter += 1
-    """
 
     # Get the maximum cut for each partition
     maximum_cut = 0
