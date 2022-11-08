@@ -1,4 +1,4 @@
-# Exhaustive Search
+# Randomized Algorithm
 ## Advanced Algorithms First Project
 
 ### Introduction
