@@ -1,5 +1,5 @@
 from graph_utils import *
-from algorithm_utils import *
+from utils.algorithm_utils import *
 import networkx as nx
 import time
 
@@ -49,7 +49,7 @@ def search(graph, tree):
 if __name__ == '__main__':
 
     graphs = load_graphs()
-    file = open("breadth_first_search.txt", "w")
+    file = open("results/breadth_first_search.txt", "w")
     file.write(f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
     for graph in graphs:

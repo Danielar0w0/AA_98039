@@ -1,5 +1,5 @@
 from graph_utils import *
-from algorithm_utils import *
+from utils.algorithm_utils import *
 import time
 
 
@@ -71,7 +71,7 @@ def greedy_search(graph, vertices):
 if __name__ == '__main__':
 
     graphs = load_graphs()
-    file = open("greedy_algorithm.txt", "w")
+    file = open("results/greedy_algorithm.txt", "w")
     file.write(f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
     for graph in graphs:
