@@ -133,6 +133,13 @@ def is_connected(graph: Graph):
     return nx.is_connected(graph)
 
 
+def is_bipartite(graph: Graph):
+    # Check if a graph is bipartite.
+    # Return True if the graph is bipartite, False otherwise.
+
+    return nx.is_bipartite(graph)
+
+
 def number_of_connected_components(graph: Graph):
     # Return the number of connected components of a graph
 

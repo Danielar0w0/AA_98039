@@ -62,7 +62,6 @@ c) Analyze the accuracy of the obtained solutions by comparing them with the sol
 obtained with the algorithms of the first project.
 
 d) Compare the results of the **experimental** and the **formal analysis**.
-2
 
 e) Determine **the largest graph** that you can process on your computer, without taking too
 much time.
