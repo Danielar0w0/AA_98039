@@ -1,6 +1,5 @@
 from graph_utils import *
 from utils.algorithm_utils import *
-from itertools import combinations
 import time
 
 
@@ -20,23 +19,12 @@ def las_vegas_algorithm(graph, vertices):
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)
 
-        # Get random subset
-        # for subset in combinations(vertices, size):
-        # if np.random.randint(0, 2) == 1:
-        #     break
-
-        # Get random subset
-        n_subsets = math.comb(len(vertices), size)
-        random_index = np.random.randint(0, n_subsets)
-
-        subset_idx = 0
-        for subset in combinations(vertices, size):
-            if subset_idx == random_index:
-                break
-            subset_idx += 1
-
-        # Get random subset
-        # subset = list(combinations(vertices, size))[random_index]
+        # Generate subset with random vertices
+        subset = []
+        while len(subset) != size:
+            random_index = np.random.randint(0, len(vertices))
+            if vertices[random_index] not in subset:
+                subset.append(vertices[random_index])
 
         # Get random partition
         partition = [list(subset), list(set(vertices) - set(subset))]

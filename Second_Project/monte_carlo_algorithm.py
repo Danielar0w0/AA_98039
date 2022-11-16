@@ -3,9 +3,35 @@ from utils.algorithm_utils import *
 from itertools import combinations
 import time
 
+"""
+    # First Implementation:
+    # Generate subsets with random size
+    size = np.random.randint(0, len(vertices) + 1)
+
+    subset_idx = 0
+    for subset in combinations(vertices, size):
+        if np.random.randint(0, 2):
+            break
+"""
+
+"""
+    # Second Implementation:
+    # Generate subsets with random size
+    size = np.random.randint(0, len(vertices) + 1)
+
+    # Get random subset
+    n_subsets = math.comb(len(vertices), size)
+    random_index = np.random.randint(0, n_subsets, dtype=np.int64)
+
+    subset_idx = 0
+    for subset in combinations(vertices, size):
+        if subset_idx == random_index:
+            break
+
+        subset_idx += 1
+"""
 
 def monte_carlo_algorithm(graph, vertices):
-
     global operations_counter
     global attempts_counter
 
@@ -16,28 +42,20 @@ def monte_carlo_algorithm(graph, vertices):
     checked_partitions = []
 
     # len(partitions) = 2^n
-    while len(checked_partitions) < 2 ** len(vertices) and operations_counter < 50:
+    while len(checked_partitions) < 2 ** len(vertices) and operations_counter < 1000000:
 
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)
 
-        # Get random subset
-        for subset in combinations(vertices, size):
-            if np.random.randint(0, 2) == 1:
-                break
+        # Generate subset with random vertices
+        subset = []
+        while len(subset) != size:
+            random_index = np.random.randint(0, len(vertices))
+            if vertices[random_index] not in subset:
+                subset.append(vertices[random_index])
 
-        # Get random subset
-        # n_subsets = math.comb(len(vertices), size)
-        # random_index = np.random.randint(0, n_subsets)
-
-        # subset_idx = 0
-        # for subset in combinations(vertices, size):
-        #     if subset_idx == random_index:
-        #         break
-        #    subset_idx += 1
-
-        # Get random subset
-        # subset = list(combinations(vertices, size))[random_index]
+            # Update operations counter
+            operations_counter += 1
 
         # Get random partition
         partition = [list(subset), list(set(vertices) - set(subset))]
@@ -54,7 +72,7 @@ def monte_carlo_algorithm(graph, vertices):
             B = partition[1]
 
         # Update operations counter
-        operations_counter += 1
+        # operations_counter += 1
 
         # Update attempts counter
         attempts_counter += 1
@@ -65,7 +83,6 @@ def monte_carlo_algorithm(graph, vertices):
 
 
 def generate_partitions(vertices):
-
     # Get all possible subsets
     subsets = []
     for i in range(0, len(vertices) + 1):
@@ -83,7 +100,7 @@ def generate_partitions(vertices):
 if __name__ == '__main__':
 
     graphs = load_graphs()
-    file = open("results/monte_carlo_algorithm_it3.txt", "w")
+    file = open("results/monte_carlo_algorithm.txt", "w")
     file.write(
         f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
@@ -105,6 +122,7 @@ if __name__ == '__main__':
         end = time.time()
 
         print_results(graph, A, B, maximum_cut)
-        file.write(f"{len(graph.nodes):<12} {n_vertices:<12} {len(graph.edges):<10} {maximum_cut:<15} {operations_counter:<15} {attempts_counter:<12} {end - start:<15}\n")
+        file.write(
+            f"{len(graph.nodes):<12} {n_vertices:<12} {len(graph.edges):<10} {maximum_cut:<15} {operations_counter:<15} {attempts_counter:<12} {end - start:<15}\n")
 
     file.close()
