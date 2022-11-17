@@ -8,7 +8,6 @@ import time
     # Generate subsets with random size
     size = np.random.randint(0, len(vertices) + 1)
 
-    subset_idx = 0
     for subset in combinations(vertices, size):
         if np.random.randint(0, 2):
             break
@@ -31,7 +30,10 @@ import time
         subset_idx += 1
 """
 
-def monte_carlo_algorithm(graph, vertices):
+
+def monte_carlo_algorithm(graph, vertices, operations_limit=None, time_limit=None):
+
+    global start
     global operations_counter
     global attempts_counter
 
@@ -42,7 +44,7 @@ def monte_carlo_algorithm(graph, vertices):
     checked_partitions = []
 
     # len(partitions) = 2^n
-    while len(checked_partitions) < 2 ** len(vertices) and operations_counter < 1000000:
+    while len(checked_partitions) < 2 ** len(vertices):
 
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)
@@ -79,6 +81,18 @@ def monte_carlo_algorithm(graph, vertices):
 
         checked_partitions.append(partition)
 
+        # Best possible solution
+        if maximum_cut == len(graph.edges):
+            break
+
+        # Time has exceeded
+        if time_limit and time.time() - start > time_limit:
+            break
+
+        # Number of operations has exceeded
+        if operations_limit and operations_counter > operations_limit:
+            break
+
     return A, B, maximum_cut
 
 
@@ -100,29 +114,36 @@ def generate_partitions(vertices):
 if __name__ == '__main__':
 
     graphs = load_graphs()
-    file = open("results/monte_carlo_algorithm.txt", "w")
-    file.write(
-        f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
-    for graph in graphs:
+    parameters = [(100000, None), (1000000, None), (None, 60), (100000, 60), (1000000, 60)]
 
-        operations_counter = 0
-        attempts_counter = 0
+    for i, param in enumerate(parameters):
 
-        # Get relevant vertices
-        vertices = list(remove_vertices_without_edges(graph))
-        n_vertices = len(vertices)
-
-        if not vertices:
-            print_results(graph, None, None, 0)
-            continue
-
-        start = time.time()
-        A, B, maximum_cut = monte_carlo_algorithm(graph, vertices)
-        end = time.time()
-
-        print_results(graph, A, B, maximum_cut)
+        file = open("results/monte_carlo_algorithm" + str(i) + ".txt", "w")
+        file.write(f"Time Limit: {param[1] or 0}s, Operations Limit: {param[0] or 0}\n")
         file.write(
-            f"{len(graph.nodes):<12} {n_vertices:<12} {len(graph.edges):<10} {maximum_cut:<15} {operations_counter:<15} {attempts_counter:<12} {end - start:<15}\n")
+            f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
-    file.close()
+        for graph in graphs:
+
+            operations_counter = 0
+            attempts_counter = 0
+
+            # Get relevant vertices
+            vertices = list(remove_vertices_without_edges(graph))
+            n_vertices = len(vertices)
+
+            if not vertices:
+                # print_results(graph, None, None, 0)
+                continue
+
+            start = time.time()
+            A, B, maximum_cut = monte_carlo_algorithm(graph, vertices, param[0], param[1])
+            end = time.time()
+
+            # print_results(graph, A, B, maximum_cut)
+            file.write(
+                f"{len(graph.nodes):<12} {n_vertices:<12} {len(graph.edges):<10} {maximum_cut:<15} {operations_counter:<15} {attempts_counter:<12} {end - start:<15}\n")
+
+        print("Done with", i)
+        file.close()

@@ -26,6 +26,9 @@ def las_vegas_algorithm(graph, vertices):
             if vertices[random_index] not in subset:
                 subset.append(vertices[random_index])
 
+            # Update operations counter
+            operations_counter += 1
+
         # Get random partition
         partition = [list(subset), list(set(vertices) - set(subset))]
 
@@ -41,12 +44,16 @@ def las_vegas_algorithm(graph, vertices):
             B = partition[1]
 
         # Update operations counter
-        operations_counter += 1
+        # operations_counter += 1
 
         # Update attempts counter
         attempts_counter += 1
 
         checked_partitions.append(partition)
+
+        # Best possible solution
+        if maximum_cut == len(graph.edges):
+            return A, B, maximum_cut
 
     return A, B, maximum_cut
 
@@ -71,7 +78,7 @@ if __name__ == '__main__':
             print_results(graph, None, None, 0)
             continue
 
-        # Graph is two large (Throws MemoryError)
+        #
         if len(vertices) > 16:
             break
 
