@@ -14,7 +14,7 @@ def las_vegas_algorithm(graph, vertices):
     checked_partitions = []
 
     # len(partitions) = 2^n
-    while len(checked_partitions) < 2 ** len(vertices):
+    while attempts_counter < 2 ** len(vertices):
 
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)

@@ -44,7 +44,7 @@ def monte_carlo_algorithm(graph, vertices, operations_limit=None, time_limit=Non
     checked_partitions = []
 
     # len(partitions) = 2^n
-    while len(checked_partitions) < 2 ** len(vertices):
+    while attempts_counter < 2 ** len(vertices):
 
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)
@@ -115,12 +115,12 @@ if __name__ == '__main__':
 
     graphs = load_graphs()
 
-    parameters = [(100000, None), (1000000, None), (None, 60), (100000, 60), (1000000, 60)]
+    parameters = [(100000, None), (1000000, None), (None, 60), (None, 120), (5000000, 120)]
 
     for i, param in enumerate(parameters):
 
         file = open("results/monte_carlo_algorithm" + str(i) + ".txt", "w")
-        file.write(f"Time Limit: {param[1] or 0}s, Operations Limit: {param[0] or 0}\n")
+        # file.write(f"Time Limit: {param[1] or 0}s, Operations Limit: {param[0] or 0}\n")
         file.write(
             f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
