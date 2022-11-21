@@ -14,26 +14,27 @@ def las_vegas_algorithm(graph, vertices):
     checked_partitions = []
 
     # len(partitions) = 2^n
-    while attempts_counter < 2 ** len(vertices):
+    while len(checked_partitions) < 2 ** len(vertices):
 
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)
 
         # Generate subset with random vertices
-        subset = []
+        subset = set()
         while len(subset) != size:
             random_index = np.random.randint(0, len(vertices))
             if vertices[random_index] not in subset:
-                subset.append(vertices[random_index])
+                subset.add(vertices[random_index])
 
             # Update operations counter
             operations_counter += 1
 
+        # Check if subset is already in checked partitions
+        if subset in checked_partitions:
+            continue
+
         # Get random partition
         partition = [list(subset), list(set(vertices) - set(subset))]
-
-        if partition in checked_partitions:
-            continue
 
         cut = count_cut(graph, partition)
         # cut = nx.cut_size(graph, partition[0], partition[1])
@@ -43,13 +44,11 @@ def las_vegas_algorithm(graph, vertices):
             A = partition[0]
             B = partition[1]
 
-        # Update operations counter
-        # operations_counter += 1
-
         # Update attempts counter
         attempts_counter += 1
 
-        checked_partitions.append(partition)
+        # Update checked partitions
+        checked_partitions.append(subset)
 
         # Best possible solution
         if maximum_cut == len(graph.edges):
@@ -63,7 +62,7 @@ if __name__ == '__main__':
     graphs = load_graphs()
     file = open("results/las_vegas_algorithm.txt", "w")
     file.write(
-        f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
+        f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum_Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
     for graph in graphs:
 
@@ -75,7 +74,7 @@ if __name__ == '__main__':
         n_vertices = len(vertices)
 
         if not vertices:
-            print_results(graph, None, None, 0)
+            # print_results(graph, None, None, 0)
             continue
 
         #
@@ -86,7 +85,7 @@ if __name__ == '__main__':
         A, B, maximum_cut = las_vegas_algorithm(graph, vertices)
         end = time.time()
 
-        print_results(graph, A, B, maximum_cut)
+        # print_results(graph, A, B, maximum_cut)
         file.write(
             f"{len(graph.nodes):<12} {n_vertices:<12} {len(graph.edges):<10} {maximum_cut:<15} {operations_counter:<15} {attempts_counter:<12} {end - start:<15}\n")
 

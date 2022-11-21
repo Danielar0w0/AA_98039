@@ -44,26 +44,27 @@ def monte_carlo_algorithm(graph, vertices, operations_limit=None, time_limit=Non
     checked_partitions = []
 
     # len(partitions) = 2^n
-    while attempts_counter < 2 ** len(vertices):
+    while len(checked_partitions) < 2 ** len(vertices):
 
         # Generate subsets with random size
         size = np.random.randint(0, len(vertices) + 1)
 
         # Generate subset with random vertices
-        subset = []
+        subset = set()
         while len(subset) != size:
             random_index = np.random.randint(0, len(vertices))
             if vertices[random_index] not in subset:
-                subset.append(vertices[random_index])
+                subset.add(vertices[random_index])
 
             # Update operations counter
             operations_counter += 1
 
-        # Get random partition
-        partition = [list(subset), list(set(vertices) - set(subset))]
-
-        if partition in checked_partitions:
+        # Check if subset is already in checked partitions
+        if subset in checked_partitions:
             continue
+
+        # Get random partition
+        partition = [list(subset), list(set(vertices) - subset)]
 
         cut = count_cut(graph, partition)
         # cut = nx.cut_size(graph, partition[0], partition[1])
@@ -73,13 +74,11 @@ def monte_carlo_algorithm(graph, vertices, operations_limit=None, time_limit=Non
             A = partition[0]
             B = partition[1]
 
-        # Update operations counter
-        # operations_counter += 1
-
         # Update attempts counter
         attempts_counter += 1
 
-        checked_partitions.append(partition)
+        # Update checked partitions
+        checked_partitions.append(subset)
 
         # Best possible solution
         if maximum_cut == len(graph.edges):
@@ -92,6 +91,9 @@ def monte_carlo_algorithm(graph, vertices, operations_limit=None, time_limit=Non
         # Number of operations has exceeded
         if operations_limit and operations_counter > operations_limit:
             break
+
+    # Update attempts counter
+    attempts_counter -= 1
 
     return A, B, maximum_cut
 
@@ -120,7 +122,8 @@ if __name__ == '__main__':
     for i, param in enumerate(parameters):
 
         file = open("results/monte_carlo_algorithm" + str(i) + ".txt", "w")
-        # file.write(f"Time Limit: {param[1] or 0}s, Operations Limit: {param[0] or 0}\n")
+
+        file.write(f"Time Limit: {param[1] or 0}s, Operations Limit: {param[0] or 0}\n")
         file.write(
             f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
