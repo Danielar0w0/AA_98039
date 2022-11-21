@@ -62,7 +62,7 @@ if __name__ == '__main__':
     graphs = load_graphs()
     file = open("results/las_vegas_algorithm.txt", "w")
     file.write(
-        f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum_Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
+        f"{'Graph':<12} {'Vertices':<12} {'Edges':<10} {'Maximum Cut':<15} {'Operations':<15} {'Attempts':<12} {'Time':<15}\n")
 
     for graph in graphs:
 
