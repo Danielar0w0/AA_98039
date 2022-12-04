@@ -1,0 +1,4 @@
+Time Limit: 0s, Operations Limit: 1000000
+Graph        Vertices     Edges      Maximum Cut     Operations      Attempts     Time           
+250          250          1273       680             1000736         3966         27.633552312850952
+13           13           13         11              1003434         8064         5.5435333251953125

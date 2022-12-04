@@ -113,15 +113,17 @@ def generate_partitions(vertices):
     return partitions
 
 
-if __name__ == '__main__':
+def run_graphs(graphs, file_name):
 
-    graphs = load_graphs()
+    global start
+    global operations_counter
+    global attempts_counter
 
     parameters = [(100000, None), (1000000, None), (None, 60), (None, 120), (5000000, 120)]
 
     for i, param in enumerate(parameters):
 
-        file = open("results/monte_carlo_algorithm" + str(i) + ".txt", "w")
+        file = open(file_name + str(i) + ".txt", "w")
 
         file.write(f"Time Limit: {param[1] or 0}s, Operations Limit: {param[0] or 0}\n")
         file.write(
@@ -150,3 +152,16 @@ if __name__ == '__main__':
 
         print("Done with", i)
         file.close()
+
+
+if __name__ == '__main__':
+
+    graphs = load_graphs()
+    run_graphs(graphs, "results/test_monte_carlo_algorithm")
+
+    graphs = load_SW_graphs()
+    run_graphs(graphs, "results/SW_monte_carlo_algorithm")
+
+
+
+
