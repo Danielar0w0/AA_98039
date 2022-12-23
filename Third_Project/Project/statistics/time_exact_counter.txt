@@ -1,0 +1,4 @@
+Title                                    Time                     
+Alice’s Adventures in Wonderland:        0.0029921531677246094    
+Alice's Abenteuer im Wunderland:         0.004511594772338867     
+Aventures d'Alice au pays:               0.004985809326171875     
