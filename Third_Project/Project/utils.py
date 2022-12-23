@@ -58,9 +58,21 @@ def process_files():
     return processed_books
 
 
-def absolute_error(estimated_value, true_value):
-    return estimated_value - true_value
+def load_exact_counter(title):
 
+    exact_counter = {}
+    try:
+        with open("exact_counters/" + title + ".txt", encoding="utf8") as file:
 
-def relative_error(estimated_value, true_value):
-    return (estimated_value - true_value) / true_value * 100
+            # Skip the first line
+            file.readline()
+
+            # Read all letters - counters
+            for line in file:
+                letter, counter = line.split()
+                exact_counter[letter] = int(counter)
+
+        return exact_counter
+
+    except FileNotFoundError:
+        return None
