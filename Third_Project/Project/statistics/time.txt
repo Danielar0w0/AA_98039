@@ -1,0 +1,27 @@
+Alice’s Adventures in Wonderland
+------------------------------------------
+Exact Counter:                 0.0045392513275146484     seconds
+Approximate Counter:           0.46122241020202637       seconds
+Approximate Counter:           0.4581577777862549        seconds
+Data Stream Counter (k = 3):   0.014472723007202148      seconds
+Data Stream Counter (k = 5):   0.014130592346191406      seconds
+Data Stream Counter (k = 10):  0.013729333877563477      seconds
+
+Alice's Abenteuer im Wunderland
+------------------------------------------
+Exact Counter:                 0.004499673843383789      seconds
+Approximate Counter:           1.0221667289733887        seconds
+Approximate Counter:           1.044156789779663         seconds
+Data Stream Counter (k = 3):   0.033090829849243164      seconds
+Data Stream Counter (k = 5):   0.03171730041503906       seconds
+Data Stream Counter (k = 10):  0.029819488525390625      seconds
+
+Aventures d'Alice au pays
+------------------------------------------
+Exact Counter:                 0.003989219665527344      seconds
+Approximate Counter:           1.0020866394042969        seconds
+Approximate Counter:           0.9931321144104004        seconds
+Data Stream Counter (k = 3):   0.030821561813354492      seconds
+Data Stream Counter (k = 5):   0.029544591903686523      seconds
+Data Stream Counter (k = 10):  0.029251813888549805      seconds
+

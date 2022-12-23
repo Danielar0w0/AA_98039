@@ -11,7 +11,8 @@ def process_files():
     stopwords = load_stopwords()
 
     # All books
-    books = ["Alice’s Adventures in Wonderland", "Alice’s Adventures in Wonderland", "Aventures d'Alice au pays"]
+    books = ["Alice’s Adventures in Wonderland", "Alice's Abenteuer im Wunderland", "Aventures d'Alice au pays"]
+    processed_books = {}
 
     # Open Project Gutenberg files
     for book in books:
@@ -40,11 +41,11 @@ def process_files():
             for char in punctuation:
                 text = text.replace(char, "")
 
-            # Remove all stopwords with nltk
-            # text = " ".join([word for word in text.split() if word not in stopwords.words("english")])
+            # Remove all stopwords and whitespaces with nltk
+            # text = "".join([word for word in text.split() if word not in stopwords.words("english")])
 
-            # Remove all stopwords without nltk
-            text = " ".join([word for word in text.split() if word.lower() not in stopwords])
+            # Remove all stopwords and whitespaces without nltk
+            text = "".join([word for word in text.split() if word.lower() not in stopwords])
 
             # Convert all letters to uppercase
             text = text.upper()
@@ -52,6 +53,14 @@ def process_files():
             print("Final length of text: ", len(text))
             print("------------------------")
 
+            processed_books[book] = text
 
-if __name__ == "__main__":
-    process_files()
+    return processed_books
+
+
+def absolute_error(estimated_value, true_value):
+    return estimated_value - true_value
+
+
+def relative_error(estimated_value, true_value):
+    return (estimated_value - true_value) / true_value * 100
