@@ -38,8 +38,7 @@ if __name__ == '__main__':
     stats.write(f'{"Title":<40} {"Time":<25}\n')
 
     # Set number of trials
-    # n_trials = 10000
-    n_trials = 100
+    n_trials = 10000
 
     # Set seed with nMec
     np.random.seed(98039)

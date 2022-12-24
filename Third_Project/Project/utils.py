@@ -15,13 +15,21 @@ def process_files():
     books = ["Alice’s Adventures in Wonderland", "Alice's Abenteuer im Wunderland", "Aventures d'Alice au pays"]
     processed_books = {}
 
+    # File to keep track of text processing
+    stats = open("statistics/text_processing.txt", "w", encoding="utf8")
+    stats.write(f'{"Title":<40} {"Initial Length":<25} {"Final Length"}\n')
+
     # Open Project Gutenberg files
     for book in books:
+
         with open("Project_Gutenberg/" + book + ".txt", encoding="utf8") as file:
             text = file.read()
 
-            print("Title: " + book)
-            print("Initial length of text: ", len(text))
+            # print("Title: " + book)
+            # print("Initial length of text: ", len(text))
+
+            # Keep track of initial length (before processing)
+            initial_length = len(text)
 
             # Remove header and footer
             header = f"*** START OF THE PROJECT GUTENBERG EBOOK {book.upper()} ***"
@@ -31,8 +39,6 @@ def process_files():
             end = text.find(footer)
 
             text = text[start:end]
-
-            # TODO: Remove Table of Contents?
 
             # Remove Illustrations
             text = text.replace("[Illustration]", "")
@@ -54,10 +60,18 @@ def process_files():
             # Convert all letters to uppercase
             text = text.upper()
 
-            print("Final length of text: ", len(text))
-            print("------------------------")
+            # print("Final length of text: ", len(text))
+            # print("------------------------")
+
+            # Keep track of final length (after processing)
+            final_length = len(text)
 
             processed_books[book] = text
+
+        # Store length of text before and after processing
+        stats.write(f'{book:<40} {initial_length:<25} {final_length}\n')
+
+    stats.close()
 
     return processed_books
 

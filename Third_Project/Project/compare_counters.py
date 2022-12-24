@@ -1,5 +1,4 @@
 import json
-
 import numpy as np
 
 
@@ -188,13 +187,13 @@ def compare_data_stream_counters(title, exact_counters):
 
         with open("statistics/data_stream_counters/" + title + "_K" + str(k) + ".txt", "w", encoding="utf8") as stats:
 
-            stats.write(f"Top {k} letters:\n")
+            stats.write(f"Top {k-1} letters (Exact Counter):\n")
             for letter, counter in top_k_letters:
                 stats.write(f"{letter}: {counter}\n")
 
             stats.write("\n")
 
-            stats.write(f"Top {k} letters from data stream:\n")
+            stats.write(f"Top {k-1} letters (Frequent-Count):\n")
             for letter, counter in counters.items():
                 stats.write(f"{letter}: {counter}\n")
 
