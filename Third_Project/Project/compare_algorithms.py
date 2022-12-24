@@ -173,6 +173,43 @@ def compare_approximate_counters(title, exact_counters):
             stats.write(f'{letter} : {counter} : {expected_value_dict[letter]}\n')
 
 
+def compare_data_stream_counters(title, exact_counters):
+
+    # Set all possible k
+    all_k = [3, 5, 10]
+
+    for k in all_k:
+
+        with open("counters/data_stream_counters/" + title + "_K" + str(k) + ".txt", "r", encoding="utf8") as file:
+            line = file.readline()
+            counters = dict(json.loads(line))
+
+        top_k_letters = sorted(exact_counters.items(), key=lambda x: x[1], reverse=True)[:k]
+
+        with open("statistics/data_stream_counters/" + title + "_K" + str(k) + ".txt", "w", encoding="utf8") as stats:
+
+            stats.write(f"Top {k} letters:\n")
+            for letter, counter in top_k_letters:
+                stats.write(f"{letter}: {counter}\n")
+
+            stats.write("\n")
+
+            stats.write(f"Top {k} letters from data stream:\n")
+            for letter, counter in counters.items():
+                stats.write(f"{letter}: {counter}\n")
+
+            stats.write("\n")
+
+            # Accurate letters
+            accurate_letters = len([letter for letter, counter in top_k_letters if letter in counters])
+
+            # Accuracy
+            accuracy = accurate_letters/k
+
+            stats.write(f"Accurate letters: {accurate_letters}/{k}\n")
+            stats.write(f"Accuracy: {accuracy * 100}%\n")
+
+
 if __name__ == "__main__":
 
     # All books
@@ -184,3 +221,6 @@ if __name__ == "__main__":
 
         # Compare approximate counters
         compare_approximate_counters(book, exact_counters)
+
+        # Compare data stream counters
+        compare_data_stream_counters(book, exact_counters)
