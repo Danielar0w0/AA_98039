@@ -7,6 +7,7 @@ def load_stopwords():
 
 
 def process_files():
+
     # Load stopwords
     stopwords = load_stopwords()
 
@@ -46,6 +47,9 @@ def process_files():
 
             # Remove all stopwords and whitespaces without nltk
             text = "".join([word for word in text.split() if word.lower() not in stopwords])
+
+            # Keep only letters
+            text = "".join([char for char in text if char.isalpha()])
 
             # Convert all letters to uppercase
             text = text.upper()

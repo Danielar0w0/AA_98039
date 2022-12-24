@@ -1,6 +1,7 @@
 from collections import Counter
 from utils import process_files
 import time
+import json
 
 
 def exact_counter(stream):
@@ -28,9 +29,11 @@ if __name__ == '__main__':
         stats.write(f'{title + ":":<40} {processing_time:<25}\n')
 
         # Store the exact counters
-        with open("exact_counters/" + title + ".txt", "w", encoding="utf8") as file:
-            file.write(f'{"Letter":<10} {"Counter":<10}\n')
-            for letter in counter:
-                file.write(f'{letter:<10} {counter[letter]:<10}\n')
+        with open("counters/exact_counters/" + title + ".txt", "w", encoding="utf8") as file:
+            file.write(json.dumps(counter))
+
+            # file.write(f'{"Letter":<10} {"Counter":<10}\n')
+            # for letter in counter:
+            #     file.write(f'{letter:<10} {counter[letter]:<10}\n')
 
     stats.close()

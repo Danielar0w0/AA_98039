@@ -1,5 +1,6 @@
 from utils import process_files
 import time
+import json
 
 
 def frequent_count(stream, k):
@@ -52,10 +53,8 @@ if __name__ == "__main__":
             counter, processing_time = frequent_count(streams[title], k)
             stats.write(f'{title + ":":<40} {processing_time:<25} {k:<10}\n')
 
-            # Store the frequent counters
-            with open("data_stream_counters/" + title + "_K" + str(k) + ".txt", "w", encoding="utf8") as file:
-                file.write(f'{"Letter":<10} {"Counter":<10}\n')
-                for letter in counter:
-                    file.write(f'{letter:<10} {counter[letter]:<10}\n')
+            # Store the data stream counters
+            with open("counters/data_stream_counters/" + title + "_K" + str(k) + ".txt", "w", encoding="utf8") as file:
+                file.write(json.dumps(counter))
 
             counters.append(counter)
