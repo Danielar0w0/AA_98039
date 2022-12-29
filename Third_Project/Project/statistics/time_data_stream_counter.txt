@@ -1,10 +1,10 @@
 Title                                    Time                      k         
-Alice’s Adventures in Wonderland:        0.014529228210449219      3         
-Alice’s Adventures in Wonderland:        0.013330221176147461      5         
-Alice’s Adventures in Wonderland:        0.012493371963500977      10        
-Alice's Abenteuer im Wunderland:         0.031006813049316406      3         
-Alice's Abenteuer im Wunderland:         0.03047490119934082       5         
-Alice's Abenteuer im Wunderland:         0.030553579330444336      10        
-Aventures d'Alice au pays:               0.03105306625366211       3         
-Aventures d'Alice au pays:               0.029004573822021484      5         
-Aventures d'Alice au pays:               0.02852606773376465       10        
+Alice’s Adventures in Wonderland:        0.014958381652832031      3         
+Alice’s Adventures in Wonderland:        0.013963699340820312      5         
+Alice’s Adventures in Wonderland:        0.013991117477416992      10        
+Alice's Abenteuer im Wunderland:         0.032430171966552734      3         
+Alice's Abenteuer im Wunderland:         0.0329129695892334        5         
+Alice's Abenteuer im Wunderland:         0.030918121337890625      10        
+Aventures d'Alice au pays:               0.031464576721191406      3         
+Aventures d'Alice au pays:               0.03088688850402832       5         
+Aventures d'Alice au pays:               0.03191566467285156       10        

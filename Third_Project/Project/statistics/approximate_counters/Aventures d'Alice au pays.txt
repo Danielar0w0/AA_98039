@@ -1,0 +1,89 @@
+Expected value: 645.3023579075825
+Variance: 322.65117895379126
+Standard deviation: 17.962493673034132
+
+Mean absolute error: 127098.8035
+Mean relative error: 9950.038242639303%
+Mean accuracy ratio: 98.89883279977101%
+
+Smallest counter value: 612
+Largest counter value: 665
+
+Mean counter value: 638.1965
+Mean absolute deviation: 5.8322743999999345
+Standard deviation: 7.2950591327281655
+Maximum deviation: 26.803499999999985
+Variance: 53.21788775000062
+
+Real Char Frequency Order: EATISRNULODCPMVÉQFGBHJÀXYZÈÊÇÔWÂKÛÎŒÙË
+Letter Order Accuracy: 0%
+10 Most Common Orders:
+ETLRUIOPSCANDVMGÉFQBYJHÀÈZÊXÇWÛÔÂŒÎKÙË: 1
+ESICOTLNDARUMPQVGBHÉFYJÀÊZÈXÔÇÎWŒÂÙKÛË: 1
+EIARTSLCOUNMVPDÉBHFQJGYÀZÈÊWXÇÔÎŒKÂÛÙË: 1
+EITARLSOUNDVCMQPÉBHFGJÀÊYÈZXÇÔWÛÎKŒÂÙË: 1
+EISLAUTNROCDFMPGQBHVÀJÉXÈZYÊÇÔWKÎÂŒÛÙË: 1
+ETISUNLAROPMCDHVGÉFBJQÈÀZXYÊÔÇÂKWÛÙŒÎË: 1
+EAIRSULNTODPMCHVQBGÉFJXÀYÈÊÇZWÔŒÎÂKÙÛË: 1
+ESLITARNCOUVPDMÉGFBHJQÈÀYÊXZWÛÔŒÂÇKÎÙË: 1
+EIANLRSUTOCVPMDÉBHJGFQÀÈYXÇÊZKÔWÛÎÂÙŒË: 1
+EITRAOUSLCNDVPMÉGJFÀBQZHÈXYÊÇWÎÔÂKÛÙŒË: 1
+
+Top 3 Char Order Accuracy: 1.8900000000000001%
+10 Most Common Orders:
+ESI: 544
+EIA: 450
+ESA: 376
+ESL: 348
+EIS: 276
+EAS: 249
+ETS: 239
+ELI: 238
+EAR: 227
+EAT: 189
+
+Most Frequent Letter: E
+Letter Accuracy: 74.37%
+10 Most Common Letters:
+E A I S T R N L U O 
+
+Mean Counter Values per letter:
+Letter : Counter Value : Expected Value
+E      : 25.6825       : 25.957638285522712
+A      : 23.8186       : 24.0784029381034
+T      : 23.794        : 24.029142476739512
+I      : 23.723        : 23.989295218670694
+S      : 23.5644       : 23.815778645931907
+R      : 23.2986       : 23.55250450168795
+N      : 23.2309       : 23.486329253392793
+U      : 23.001        : 23.264657085145135
+L      : 22.975        : 23.224089208583568
+O      : 22.5735       : 22.839508054055003
+D      : 21.5587       : 21.822923395438288
+C      : 21.3835       : 21.639102910425773
+P      : 20.8771       : 21.140022089133925
+M      : 20.3741       : 20.62493927418786
+V      : 19.5269       : 19.781676051186583
+É      : 18.3128       : 18.564151981505503
+Q      : 18.3097       : 18.55453721059028
+F      : 18.1663       : 18.43859514715337
+G      : 17.945        : 18.206972256366626
+B      : 17.8084       : 18.06445489002698
+H      : 17.5872       : 17.819197907403908
+J      : 16.8337       : 17.084455776106847
+À      : 16.0133       : 16.271428922162237
+X      : 14.7937       : 15.045725126372986
+Z      : 14.4547       : 14.686313081903192
+Y      : 14.4486       : 14.69366439818999
+È      : 14.3652       : 14.626818395115086
+Ê      : 13.8174       : 14.055309430447334
+Ç      : 11.3468       : 11.567458264675153
+Ô      : 11.0218       : 11.246528920288663
+W      : 10.9354       : 11.147873495561525
+Â      : 9.4988        : 9.673942307229114
+K      : 9.1563        : 9.318368068798549
+Û      : 9.1275        : 9.318368068798549
+Î      : 8.5905        : 8.744605773222226
+Œ      : 8.369         : 8.504017305786801
+Ù      : 6.9126        : 6.9666683979997135
+Ë      : 1.0           : -0.5431066063272232

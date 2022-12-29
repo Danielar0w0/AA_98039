@@ -1,0 +1,10 @@
+Top 2 letters (Exact Counter):
+E: 7201
+T: 4360
+
+Top 2 letters (Frequent-Count):
+Y: 1
+S: 1
+
+Accurate letters: 0/2
+Accuracy: 0.0%

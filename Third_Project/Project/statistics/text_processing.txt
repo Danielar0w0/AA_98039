@@ -1,0 +1,4 @@
+Title                                    Initial Length            Final Length
+Alice’s Adventures in Wonderland         164013                    56189
+Alice's Abenteuer im Wunderland          179151                    130641
+Aventures d'Alice au pays                177112                    127737

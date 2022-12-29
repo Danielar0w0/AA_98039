@@ -1,0 +1,14 @@
+Top 4 letters (Exact Counter):
+E: 7201
+T: 4360
+I: 4314
+A: 4005
+
+Top 4 letters (Frequent-Count):
+M: 1
+A: 1
+Y: 1
+S: 1
+
+Accurate letters: 1/4
+Accuracy: 25.0%

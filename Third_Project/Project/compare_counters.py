@@ -13,16 +13,22 @@ def obtain_exact_counters(title):
 
 def compare_approximate_counters(title, exact_counters):
 
-    # Keep track of all counters (for n trials)
+    # Keep track of mean counter values
+    avg_counts = {}
+
+    # Keep track of total number of letters (for n trials)
     total_letters = []
 
     # Keep track of all orders (for n trials)
     total_orders = {}
 
-    # Keep track of first 5 letters order
-    first_5_letters = {}
+    # Keep track of order for first 3 letters
+    first_3_letters = {}
 
-    # Obtain all counters
+    # Keep track of most frequent letter
+    most_frequent_letters = {}
+
+    # Obtain all trials
     with open("counters/approximate_counters/" + title + ".txt", "r", encoding="utf8") as file:
 
         while True:
@@ -37,8 +43,15 @@ def compare_approximate_counters(title, exact_counters):
             counters = dict(json.loads(line))
             counters = dict(sorted(counters.items(), key=lambda item: item[1], reverse=True))
 
+            # Obtain total number of letters
             total = sum(counters.values())
             total_letters.append(total)
+
+            # Obtain mean counter values
+            for letter, count in counters.items():
+                if letter not in avg_counts:
+                    avg_counts[letter] = 0
+                avg_counts[letter] += count
 
             # Obtain letters order
             order = "".join(counters)
@@ -47,13 +60,24 @@ def compare_approximate_counters(title, exact_counters):
 
             total_orders[order] += 1
 
-            # Obtain first 5 letters order
-            order = order[:5]
+            # Obtain first 3 letters order
+            order = order[:3]
 
-            if order not in first_5_letters:
-                first_5_letters[order] = 0
+            if order not in first_3_letters:
+                first_3_letters[order] = 0
 
-            first_5_letters[order] += 1
+            first_3_letters[order] += 1
+
+            # Obtain most frequent letter
+            most_frequent_letter = order[0]
+
+            if most_frequent_letter not in most_frequent_letters:
+                most_frequent_letters[most_frequent_letter] = 0
+
+            most_frequent_letters[most_frequent_letter] += 1
+
+    avg_counts = {letter: count/len(total_letters) for letter, count in avg_counts.items()}
+    avg_counts = dict(sorted(avg_counts.items(), key=lambda item: item[1], reverse=True))
 
     # ----------------------------
 
@@ -62,18 +86,22 @@ def compare_approximate_counters(title, exact_counters):
 
     n = real_total
 
-    # Decreasing probability counter : 1 / sqrt(2)^k
-    p = 1 / np.sqrt(2)
-    q = 1 - p
+    # Decreasing probability counter : 1 / a^k = 1 / sqrt(2)^k
+    a = np.sqrt(2)
 
-    # Expected value
-    expected_value = n * p
+    # n = (a**k – a + 1) / (a – 1) =>
+    # => k = log_a(n_events * (a – 1) + a – 1) =>
+    # => k = log(n_events * (a – 1) + a – 1)/log(a)
 
     # Expected value of each counter
-    expected_value_dict = {letter: n * p for letter, n in counters.items()}
+    expected_value_dict = {letter: np.log(count * (a - 1) + a - 1) / np.log(a)
+                           for letter, count in exact_counters.items()}
+
+    # Expected value
+    expected_value = sum(expected_value_dict.values())
 
     # Real Variance
-    real_variance = n * p * q
+    real_variance = expected_value / 2
 
     # Real standard deviation
     real_standard_deviation = np.sqrt(real_variance)
@@ -118,14 +146,20 @@ def compare_approximate_counters(title, exact_counters):
     # Orders sorted by frequency
     total_orders = {letter: counter for letter, counter in sorted(total_orders.items(), key=lambda item: item[1], reverse=True)}
 
-    # First 5 letters sorted by frequency
-    first_5_letters = {letter: counter for letter, counter in sorted(first_5_letters.items(), key=lambda item: item[1], reverse=True)}
+    # Expected value of each counter sorted by frequency
+    expected_value_dict = {letter: counter for letter, counter in sorted(expected_value_dict.items(), key=lambda item: item[1], reverse=True)}
+
+    # First 3 letters sorted by frequency
+    first_3_letters = {letter: counter for letter, counter in sorted(first_3_letters.items(), key=lambda item: item[1], reverse=True)}
+
+    # Most frequent letters sorted by frequency
+    most_frequent_letters = {letter: counter for letter, counter in sorted(most_frequent_letters.items(), key=lambda item: item[1], reverse=True)}
 
     # Order Accuracy
     order_accuracy = total_orders[real_order] / n if real_order in total_orders else 0
 
-    # First 5 letters Accuracy
-    first_5_letters_accuracy = first_5_letters[real_order[:5]] / n if real_order[:5] in first_5_letters else 0
+    # First 3 letters Accuracy
+    first_3_letters_accuracy = first_3_letters[real_order[:3]] / n if real_order[:3] in first_3_letters else 0
 
     with open("statistics/approximate_counters/" + title + ".txt", "w", encoding="utf8") as stats:
 
@@ -146,9 +180,9 @@ def compare_approximate_counters(title, exact_counters):
         stats.write(f"Maximum deviation: {maximum_deviation}\n")
         stats.write(f"Variance: {variance}\n\n")
 
-        stats.write(f'Real Char Frequency Order: {real_order}\n')
-        stats.write(f'Letter Order Accuracy: {order_accuracy * 100}%\n')
-        stats.write('10 Most Common Orders:\n')
+        stats.write(f"Real Char Frequency Order: {real_order}\n")
+        stats.write(f"Letter Order Accuracy: {order_accuracy * 100}%\n")
+        stats.write("10 Most Common Orders:\n")
 
         for i, order in enumerate(total_orders):
             if i >= 10:
@@ -157,19 +191,30 @@ def compare_approximate_counters(title, exact_counters):
 
         stats.write("\n")
 
-        stats.write(f'Top 5 Char Order Accuracy: {first_5_letters_accuracy * 100}%\n')
+        stats.write(f'Top 3 Char Order Accuracy: {first_3_letters_accuracy * 100}%\n')
         stats.write('10 Most Common Orders:\n')
-        for i, order in enumerate(first_5_letters):
+        for i, order in enumerate(first_3_letters):
             if i >= 10:
                 break
-            stats.write(f'{order}: {first_5_letters[order]}\n')
+            stats.write(f'{order}: {first_3_letters[order]}\n')
 
         stats.write("\n")
 
+        stats.write(f"Most Frequent Letter: {real_order[0]}\n")
+        stats.write(f"Letter Accuracy: {most_frequent_letters[real_order[0]]/n * 100}%\n")
+        stats.write("10 Most Common Letters:\n")
+
+        for i, letter in enumerate(most_frequent_letters):
+            if i >= 10:
+                break
+            stats.write(f'{letter} ')
+
+        stats.write("\n\n")
+
         stats.write('Mean Counter Values per letter:\n')
         stats.write(f'Letter : Counter Value : Expected Value\n')
-        for letter, counter in counters.items():
-            stats.write(f'{letter} : {counter} : {expected_value_dict[letter]}\n')
+        for letter, counter in avg_counts.items():
+            stats.write(f'{letter:<6} : {counter:<13} : {expected_value_dict[letter]}\n')
 
 
 def compare_data_stream_counters(title, exact_counters):
@@ -183,7 +228,7 @@ def compare_data_stream_counters(title, exact_counters):
             line = file.readline()
             counters = dict(json.loads(line))
 
-        top_k_letters = sorted(exact_counters.items(), key=lambda x: x[1], reverse=True)[:k]
+        top_k_letters = sorted(exact_counters.items(), key=lambda x: x[1], reverse=True)[:k-1]
 
         with open("statistics/data_stream_counters/" + title + "_K" + str(k) + ".txt", "w", encoding="utf8") as stats:
 
@@ -203,9 +248,9 @@ def compare_data_stream_counters(title, exact_counters):
             accurate_letters = len([letter for letter, counter in top_k_letters if letter in counters])
 
             # Accuracy
-            accuracy = accurate_letters/k
+            accuracy = accurate_letters/(k-1)
 
-            stats.write(f"Accurate letters: {accurate_letters}/{k}\n")
+            stats.write(f"Accurate letters: {accurate_letters}/{k-1}\n")
             stats.write(f"Accuracy: {accuracy * 100}%\n")
 
 
