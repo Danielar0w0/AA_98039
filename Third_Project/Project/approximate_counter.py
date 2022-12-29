@@ -1,7 +1,6 @@
 from utils import process_files
 import numpy as np
 import time
-import decimal
 import json
 
 
@@ -22,7 +21,7 @@ def approximate_counter(stream):
         k = counter[letter]
 
         # Decreasing probability counter : 1 / sqrt(2)^k
-        prob = 1 / (decimal.Decimal(np.sqrt(2)) ** k)
+        prob = 1 / np.sqrt(2) ** k
 
         # Increment with previous probability
         if np.random.uniform(0, 1) <= prob:
@@ -47,6 +46,7 @@ if __name__ == '__main__':
     for title in streams:
 
         file = open("counters/approximate_counters/" + title + ".txt", "w", encoding="utf-8")
+        avg_time = 0
 
         for trial in range(n_trials):
 
@@ -54,10 +54,16 @@ if __name__ == '__main__':
             counter, processing_time = approximate_counter(streams[title])
 
             # Store processing time
-            stats.write(f'{title + ":":<40} {processing_time:<25}\n')
+            # stats.write(f'{title + ":":<40} {processing_time:<25}\n')
 
             # Store the approximate counters
             file.write(json.dumps(counter) + "\n")
+
+            # Update average processing time
+            avg_time += processing_time
+
+        # Store average processing time
+        stats.write(f'{title + ":":<40} {avg_time / n_trials:<25}\n')
 
         file.close()
 
