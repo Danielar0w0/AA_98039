@@ -42,11 +42,6 @@ ELI: 238
 EAR: 227
 EAT: 189
 
-Most Frequent Letter: E
-Letter Accuracy: 74.37%
-10 Most Common Letters:
-E A I S T R N L U O 
-
 Mean Counter Values per letter:
 Letter : Counter Value : Expected Value
 E      : 25.6825       : 25.957638285522712
@@ -87,3 +82,63 @@ K      : 9.1563        : 9.318368068798549
 Œ      : 8.369         : 8.504017305786801
 Ù      : 6.9126        : 6.9666683979997135
 Ë      : 1.0           : -0.5431066063272232
+
+Most Frequent Letter: E
+Letter Accuracy: 74.37%
+10 Most Common Letters:
+E A I S T R N L U O 
+
+--------- Letter E
+Expected value: 25.957638285522712
+Variance: 12.978819142761356
+Standard deviation: 3.6026128216561597
+
+Mean absolute error: 19462.3175
+Mean relative error: 9986.821377258035%
+Mean accuracy ratio: 98.94004884999048%
+
+Smallest counter value: 21
+Largest counter value: 30
+
+Mean counter value: 25.6825
+Mean absolute deviation: 0.983659999999995
+Standard deviation: 1.2122267733391001
+Maximum deviation: 4.682500000000001
+Variance: 1.4694937500001262
+
+--------- Letter A
+Expected value: 24.0784029381034
+Variance: 12.0392014690517
+Standard deviation: 3.469755246274829
+
+Mean absolute error: 10136.1814
+Mean relative error: 9976.556496062685%
+Mean accuracy ratio: 98.92101258222459%
+
+Smallest counter value: 20
+Largest counter value: 29
+
+Mean counter value: 23.8186
+Mean absolute deviation: 0.9652129600000114
+Standard deviation: 1.2165911556476372
+Maximum deviation: 5.1814
+Variance: 1.4800940400000535
+
+--------- Letter I
+Expected value: 23.989295218670694
+Variance: 11.994647609335347
+Standard deviation: 3.4633289779250465
+
+Mean absolute error: 9827.277
+Mean relative error: 9975.918180896113%
+Mean accuracy ratio: 98.88994146662783%
+
+Smallest counter value: 19
+Largest counter value: 29
+
+Mean counter value: 23.723
+Mean absolute deviation: 0.9889480000000048
+Standard deviation: 1.216252852000852
+Maximum deviation: 5.277000000000001
+Variance: 1.4792710000002065
+

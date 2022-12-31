@@ -42,11 +42,6 @@ ESR: 333
 ENI: 257
 ERN: 249
 
-Most Frequent Letter: E
-Letter Accuracy: 79.14999999999999%
-10 Most Common Letters:
-E N I S R T A H C D 
-
 Mean Counter Values per letter:
 Letter : Counter Value : Expected Value
 E      : 25.9555       : 26.21822135475438
@@ -79,3 +74,63 @@ Y      : 11.8508       : 12.082659304241485
 X      : 7.7457        : 7.8758001249306755
 Q      : 7.7245        : 7.8758001249306755
 Ù      : 1.0           : -0.5431066063272232
+
+Most Frequent Letter: E
+Letter Accuracy: 79.14999999999999%
+10 Most Common Letters:
+E N I S R T A H C D 
+
+--------- Letter E
+Expected value: 26.21822135475438
+Variance: 13.10911067737719
+Standard deviation: 3.6206505875846666
+
+Mean absolute error: 21304.0445
+Mean relative error: 9987.83145803978%
+Mean accuracy ratio: 98.99794363927461%
+
+Smallest counter value: 22
+Largest counter value: 31
+
+Mean counter value: 25.9555
+Mean absolute deviation: 0.9286353999999921
+Standard deviation: 1.2114122956284348
+Maximum deviation: 5.044499999999999
+Variance: 1.4675197499997543
+
+--------- Letter N
+Expected value: 24.53060195933237
+Variance: 12.265300979666184
+Standard deviation: 3.5021851720984407
+
+Mean absolute error: 11859.7328
+Mean relative error: 9979.579939414007%
+Mean accuracy ratio: 98.92623116314452%
+
+Smallest counter value: 20
+Largest counter value: 29
+
+Mean counter value: 24.2672
+Mean absolute deviation: 0.9769827200000113
+Standard deviation: 1.21078658730593
+Maximum deviation: 4.732800000000001
+Variance: 1.4660041599999405
+
+--------- Letter I
+Expected value: 24.31805984296496
+Variance: 12.15902992148248
+Standard deviation: 3.486980057511439
+
+Mean absolute error: 11015.9503
+Mean relative error: 9978.215851449228%
+Mean accuracy ratio: 98.89645866200715%
+
+Smallest counter value: 20
+Largest counter value: 29
+
+Mean counter value: 24.0497
+Mean absolute deviation: 0.9393181399999337
+Standard deviation: 1.2258180574620385
+Maximum deviation: 4.950299999999999
+Variance: 1.5026299100000056
+

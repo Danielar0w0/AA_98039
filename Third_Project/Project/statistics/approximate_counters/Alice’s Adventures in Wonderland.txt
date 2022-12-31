@@ -42,11 +42,6 @@ IET: 140
 IEN: 137
 IES: 137
 
-Most Frequent Letter: E
-Letter Accuracy: 49.46%
-10 Most Common Letters:
-E I A L T N O R S D 
-
 Mean Counter Values per letter:
 Letter : Counter Value : Expected Value
 E      : 22.8036       : 23.08525716205333
@@ -76,3 +71,63 @@ X      : 11.1024       : 11.318368068798547
 J      : 10.4984       : 10.715606633831994
 Z      : 9.8706        : 10.064454890026981
 Ù      : 1.0           : -0.5431066063272232
+
+Most Frequent Letter: E
+Letter Accuracy: 49.46%
+10 Most Common Letters:
+E I A L T N O R S D 
+
+--------- Letter E
+Expected value: 23.08525716205333
+Variance: 11.542628581026666
+Standard deviation: 3.3974444191225066
+
+Mean absolute error: 7178.1964
+Mean relative error: 9968.33273156563%
+Mean accuracy ratio: 98.77992625303604%
+
+Smallest counter value: 19
+Largest counter value: 28
+
+Mean counter value: 22.8036
+Mean absolute deviation: 0.9696446400000017
+Standard deviation: 1.220502781643706
+Maximum deviation: 5.196400000000001
+Variance: 1.4896270400000236
+
+--------- Letter I
+Expected value: 21.607183081805406
+Variance: 10.803591540902703
+Standard deviation: 3.286881735156089
+
+Mean absolute error: 4292.6513
+Mean relative error: 9950.512980993035%
+Mean accuracy ratio: 98.80371688976402%
+
+Smallest counter value: 17
+Largest counter value: 27
+
+Mean counter value: 21.3487
+Mean absolute deviation: 0.9966794599999889
+Standard deviation: 1.2192244707189235
+Maximum deviation: 5.651299999999999
+Variance: 1.4865083099998393
+
+--------- Letter A
+Expected value: 21.39278680529819
+Variance: 10.696393402649095
+Standard deviation: 3.270534115805719
+
+Mean absolute error: 3983.8701
+Mean relative error: 9947.241198502066%
+Mean accuracy ratio: 98.77114277961634%
+
+Smallest counter value: 16
+Largest counter value: 26
+
+Mean counter value: 21.1299
+Mean absolute deviation: 0.9597259599999789
+Standard deviation: 1.2292379712650814
+Maximum deviation: 5.129899999999999
+Variance: 1.5110259899998932
+

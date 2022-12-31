@@ -13,11 +13,11 @@ def obtain_exact_counters(title):
 
 def compare_approximate_counters(title, exact_counters):
 
-    # Keep track of mean counter values
-    avg_counts = {}
-
     # Keep track of total number of letters (for n trials)
     total_letters = []
+
+    # Keep track of counters of letters (for n trials)
+    letters = {}
 
     # Keep track of all orders (for n trials)
     total_orders = {}
@@ -47,11 +47,13 @@ def compare_approximate_counters(title, exact_counters):
             total = sum(counters.values())
             total_letters.append(total)
 
-            # Obtain mean counter values
+            # Obtain counter values
             for letter, count in counters.items():
-                if letter not in avg_counts:
-                    avg_counts[letter] = 0
-                avg_counts[letter] += count
+
+                if letter not in letters:
+                    letters[letter] = []
+
+                letters[letter].append(count)
 
             # Obtain letters order
             order = "".join(counters)
@@ -76,15 +78,11 @@ def compare_approximate_counters(title, exact_counters):
 
             most_frequent_letters[most_frequent_letter] += 1
 
-    avg_counts = {letter: count/len(total_letters) for letter, count in avg_counts.items()}
+    # Keep track of mean counter values
+    avg_counts = {letter: sum(count)/len(count) for letter, count in letters.items()}
     avg_counts = dict(sorted(avg_counts.items(), key=lambda item: item[1], reverse=True))
 
-    # ----------------------------
-
-    real_total = sum(exact_counters.values())
     real_order = "".join(exact_counters.keys())
-
-    n = real_total
 
     # Decreasing probability counter : 1 / a^k = 1 / sqrt(2)^k
     a = np.sqrt(2)
@@ -100,66 +98,35 @@ def compare_approximate_counters(title, exact_counters):
     # Expected value
     expected_value = sum(expected_value_dict.values())
 
-    # Real Variance
-    real_variance = expected_value / 2
+    # Real value
+    real_value = sum(exact_counters.values())
 
-    # Real standard deviation
-    real_standard_deviation = np.sqrt(real_variance)
-
-    # -----------------------------
-
-    n = len(total_letters)
-    mean = sum(total_letters) / n
-
-    # Maximum deviation
-    maximum_deviation = max([abs(total - mean) for total in total_letters])
-
-    # Mean absolute deviation
-    mean_absolute_deviation = sum([abs(total - mean) for total in total_letters]) / n
-
-    # Variance
-    variance = sum([(total - mean) ** 2 for total in total_letters]) / n
-
-    # Standard deviation (variance ** 0.5)
-    standard_deviation = np.sqrt(sum([(total - mean) ** 2 for total in total_letters]) / n)
-
-    # Mean absolute error
-    mean_absolute_error = sum([abs(total - real_total) for total in total_letters]) / n
-
-    # Mean relative error
-    mean_relative_error = sum([abs(total - real_total) / real_total * 100 for total in total_letters]) / n
-
-    # Mean accuracy ratio
-    # mean_accuracy_ratio = len([total for total in total_letters if total == real_total]) / n
-    mean_accuracy_ratio = mean / expected_value
-
-    # -----------------------------
-
-    # Smallest counter value
-    smallest_value = min(total_letters)
-
-    # Largest counter value
-    largest_value = max(total_letters)
-
-    # -----------------------------
+    # Calculate errors
+    real_variance, real_standard_deviation, mean_absolute_error, mean_relative_error, mean_accuracy_ratio, \
+        smallest_value, largest_value, mean, mean_absolute_deviation, standard_deviation, maximum_deviation, \
+        variance = calculate_errors(real_value, total_letters, expected_value)
 
     # Orders sorted by frequency
-    total_orders = {letter: counter for letter, counter in sorted(total_orders.items(), key=lambda item: item[1], reverse=True)}
+    total_orders = {letter: counter for letter, counter in sorted(total_orders.items(),
+                                                                  key=lambda item: item[1], reverse=True)}
 
     # Expected value of each counter sorted by frequency
-    expected_value_dict = {letter: counter for letter, counter in sorted(expected_value_dict.items(), key=lambda item: item[1], reverse=True)}
+    expected_value_dict = {letter: counter for letter, counter in sorted(expected_value_dict.items(),
+                                                                         key=lambda item: item[1], reverse=True)}
 
     # First 3 letters sorted by frequency
-    first_3_letters = {letter: counter for letter, counter in sorted(first_3_letters.items(), key=lambda item: item[1], reverse=True)}
+    first_3_letters = {letter: counter for letter, counter in sorted(first_3_letters.items(),
+                                                                     key=lambda item: item[1], reverse=True)}
 
     # Most frequent letters sorted by frequency
-    most_frequent_letters = {letter: counter for letter, counter in sorted(most_frequent_letters.items(), key=lambda item: item[1], reverse=True)}
+    most_frequent_letters = {letter: counter for letter, counter in sorted(most_frequent_letters.items(),
+                                                                           key=lambda item: item[1], reverse=True)}
 
     # Order Accuracy
-    order_accuracy = total_orders[real_order] / n if real_order in total_orders else 0
+    order_accuracy = total_orders[real_order] / sum(total_orders.values()) if real_order in total_orders else 0
 
     # First 3 letters Accuracy
-    first_3_letters_accuracy = first_3_letters[real_order[:3]] / n if real_order[:3] in first_3_letters else 0
+    first_3_letters_accuracy = first_3_letters[real_order[:3]] / sum(first_3_letters.values()) if real_order[:3] in first_3_letters else 0
 
     with open("statistics/approximate_counters/" + title + ".txt", "w", encoding="utf8") as stats:
 
@@ -200,8 +167,15 @@ def compare_approximate_counters(title, exact_counters):
 
         stats.write("\n")
 
+        stats.write('Mean Counter Values per letter:\n')
+        stats.write(f'Letter : Counter Value : Expected Value\n')
+        for letter, counter in avg_counts.items():
+            stats.write(f'{letter:<6} : {counter:<13} : {expected_value_dict[letter]}\n')
+
+        stats.write("\n")
+
         stats.write(f"Most Frequent Letter: {real_order[0]}\n")
-        stats.write(f"Letter Accuracy: {most_frequent_letters[real_order[0]]/n * 100}%\n")
+        stats.write(f"Letter Accuracy: {most_frequent_letters[real_order[0]]/sum(most_frequent_letters.values()) * 100}%\n")
         stats.write("10 Most Common Letters:\n")
 
         for i, letter in enumerate(most_frequent_letters):
@@ -211,10 +185,78 @@ def compare_approximate_counters(title, exact_counters):
 
         stats.write("\n\n")
 
-        stats.write('Mean Counter Values per letter:\n')
-        stats.write(f'Letter : Counter Value : Expected Value\n')
-        for letter, counter in avg_counts.items():
-            stats.write(f'{letter:<6} : {counter:<13} : {expected_value_dict[letter]}\n')
+        for i, letter in enumerate(most_frequent_letters):
+            if i >= 3:
+                break
+
+            real_variance, real_standard_deviation, mean_absolute_error, mean_relative_error, mean_accuracy_ratio, \
+                smallest_value, largest_value, mean, mean_absolute_deviation, standard_deviation, maximum_deviation, \
+                variance = calculate_errors(exact_counters[letter], letters[letter], expected_value_dict[letter])
+
+            stats.write(f"--------- Letter {letter}\n")
+            stats.write(f"Expected value: {expected_value_dict[letter]}\n")
+            stats.write(f"Variance: {real_variance}\n")
+            stats.write(f"Standard deviation: {real_standard_deviation}\n\n")
+
+            stats.write(f"Mean absolute error: {mean_absolute_error}\n")
+            stats.write(f"Mean relative error: {mean_relative_error * 100}%\n")
+            stats.write(f"Mean accuracy ratio: {mean_accuracy_ratio * 100}%\n\n")
+
+            stats.write(f"Smallest counter value: {smallest_value}\n")
+            stats.write(f"Largest counter value: {largest_value}\n\n")
+
+            stats.write(f"Mean counter value: {mean}\n")
+            stats.write(f"Mean absolute deviation: {mean_absolute_deviation}\n")
+            stats.write(f"Standard deviation: {standard_deviation}\n")
+            stats.write(f"Maximum deviation: {maximum_deviation}\n")
+            stats.write(f"Variance: {variance}\n\n")
+
+
+def calculate_errors(real_value, counters, expected_value):
+
+    # Real Variance
+    real_variance = expected_value / 2
+
+    # Real standard deviation
+    real_standard_deviation = np.sqrt(real_variance)
+
+    # -----------------------------
+
+    n = len(counters)
+    mean = sum(counters) / n
+
+    # Maximum deviation
+    maximum_deviation = max([abs(total - mean) for total in counters])
+
+    # Mean absolute deviation
+    mean_absolute_deviation = sum([abs(total - mean) for total in counters]) / n
+
+    # Variance
+    variance = sum([(count - mean) ** 2 for count in counters]) / n
+
+    # Standard deviation (variance ** 0.5)
+    standard_deviation = np.sqrt(sum([(count - mean) ** 2 for count in counters]) / n)
+
+    # Mean absolute error
+    mean_absolute_error = sum([abs(count - real_value) for count in counters]) / n
+
+    # Mean relative error
+    mean_relative_error = sum([abs(count - real_value) / real_value * 100 for count in counters]) / n
+
+    # Mean accuracy ratio
+    # mean_accuracy_ratio = len([total for total in total_letters if total == real_total]) / n
+    mean_accuracy_ratio = mean / expected_value
+
+    # -----------------------------
+
+    # Smallest counter value
+    smallest_value = min(counters)
+
+    # Largest counter value
+    largest_value = max(counters)
+
+    return real_variance, real_standard_deviation, mean_absolute_error, mean_relative_error, mean_accuracy_ratio, \
+        smallest_value, largest_value, mean, mean_absolute_deviation, standard_deviation, maximum_deviation, variance
 
 
 def compare_data_stream_counters(title, exact_counters):
