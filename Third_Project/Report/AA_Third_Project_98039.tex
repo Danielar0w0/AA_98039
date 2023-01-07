@@ -112,7 +112,7 @@ Finally, this data structure is also relevant for analyzing the similarity betwe
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=9cm]{Exact Counter for Each Letter.png}
+    \includegraphics[width=8cm]{Exact Counter for Each Letter.png}
     \caption{Exact Counter for Each Letter}
 \end{figure}
 
@@ -137,9 +137,11 @@ One advantage of using approximate counters is that they are faster and require 
 
 For this project, we implemented the approximate counters with decreasing probability: 1 / sqrt(2)\^k, where k is the count of the item (equivalent to the number of increments so far). One advantage of using decreasing probability is that it provides an approximate count of the frequency of items with a decreasing probability of error as the count increases. It is relevant when we need an approximate count with a high level of confidence in the accuracy of the most frequent letters. However, it is worth noting that it still is approximate.
 
+We obtain the average results for a total number of 10 000 trials.
+
 \begin{table}[!ht]
     \centering
-    Absolute and Relative Errors For English Version
+    Absolute and Relative Errors For English Version\linebreak\linebreak
     \begin{tabular}{|l|l|}
     \hline
         ~ & English \\ \hline
@@ -161,7 +163,7 @@ For this project, we implemented the approximate counters with decreasing probab
 
 \begin{table}[!ht]
     \centering
-    Absolute and Relative Errors For German Version
+    Absolute and Relative Errors For German Version\linebreak\linebreak
     \begin{tabular}{|l|l|}
     \hline
         ~ & German \\ \hline
@@ -183,7 +185,7 @@ For this project, we implemented the approximate counters with decreasing probab
 
 \begin{table}[!ht]
     \centering
-    Absolute and Relative Errors For French Version
+    Absolute and Relative Errors For French Version\linebreak\linebreak
     \begin{tabular}{|l|l|}
     \hline
         ~ & French \\ \hline
@@ -369,7 +371,7 @@ By analyzing the given tables, the Exact Counters and the Misra-Gries Algorithm 
 
 In general, the choice between using an exact counter, an approximate counter, or the Misra-Gris algorithm depends on the specific requirements of the task at hand. If precise counts are necessary, exact counters are the better choice. However, if memory efficiency is more important, approximate counters or the Misra-Gries algorithm may be the better choice. 
 
-Approximate counters are useful tools for estimating the frequency of items in a dataset, including the letters in a text. They require less memory; however, it was the slowest approach of the three due to the additional arithmetic operations to calculate the decreasing probability. With a fixed probavility, the approximate counters would match the exact counters in speed.
+Approximate counters are useful tools for estimating the frequency of items in a dataset, including the letters in a text. They require less memory; however, it was the slowest approach of the three due to the additional arithmetic operations to calculate the decreasing probability. With a fixed probability, the approximate counters would match the exact counters in speed.
 
 Misra-Gries excels in speed and memory; however, it experimentally performed the worst. Despite its limitations, this algorithm remains a popular and widely used method for finding the frequency of items in a data stream. Its efficiency and simplicity make it a valuable tool for a wide range of applications.
 
